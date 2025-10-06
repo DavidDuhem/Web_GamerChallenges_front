@@ -36,7 +36,6 @@ export const CreateEntryModal = ({
         exact: true,
       })
       await queryClient.refetchQueries({ type: "active" })
-
       setSnackbarOpen(true)
       handleClose()
     },

@@ -129,10 +129,7 @@ export const ChallengeDetailsPage = ({
         sx={{
           display: "flex",
           flexDirection: "column",
-          gap: {
-            xs: "var(--margin-mobile-elements)",
-            sm: "var(--margin-desktop-elements)",
-          },
+          gap: "var(--margin-desktop-elements)",
         }}
       >
         <Typography variant="h4" sx={{ textAlign: "center" }}>
@@ -232,8 +229,7 @@ export const ChallengeDetailsPage = ({
           display: "flex",
           flexDirection: "column",
           gap: {
-            xs: "var(--margin-mobile)",
-            sm: "var(--margin-desktop)",
+            xs: "var(--margin-mobile-elements)",
           },
         }}
       >

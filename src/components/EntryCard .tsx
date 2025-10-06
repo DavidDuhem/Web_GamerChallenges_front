@@ -112,9 +112,6 @@ export default function EntryCard({
               >
                 <EditIcon sx={{ color: "var(--lavander)" }} />
               </IconButton>
-              {/* <IconButton aria-label="supprimer" onClick={handleDelete}>
-                <DeleteIcon sx={{ color: "red" }} />
-              </IconButton> */}
               <EntryDelete onDelete={handleDelete} />
             </Box>
           )}
