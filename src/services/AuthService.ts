@@ -7,6 +7,7 @@ import type {
   UserResponse,
   User,
   RegisterInfos,
+  ResetPasswordInfos,
 } from "../types/auth"
 import { queryClient } from "../main"
 
@@ -55,6 +56,30 @@ class AuthService extends BaseService<User> {
       axiosClient.post<{ accessToken: string }>(`${this.endpoint}/refresh`)
     )
     return res.data.accessToken || null
+  }
+
+  async forgotPassword(payload: {
+    email: string
+  }): Promise<{ message: string }> {
+    const res = await handleAxiosError(() =>
+      axiosClient.post<{ message: string }>(
+        `${this.endpoint}/forgot-password`,
+        payload
+      )
+    )
+    return res.data
+  }
+
+  async resetPassword(
+    payload: ResetPasswordInfos
+  ): Promise<{ message: string }> {
+    const res = await handleAxiosError(() =>
+      axiosClient.post<{ message: string }>(
+        `${this.endpoint}/reset-password`,
+        payload
+      )
+    )
+    return res.data
   }
 }
 

@@ -1,5 +1,10 @@
 import { useMutation } from "@tanstack/react-query"
-import type { LoginInfos, RegisterInfos } from "../types/auth"
+import type {
+  ForgotPasswordInfos,
+  ResetPasswordInfos,
+  LoginInfos,
+  RegisterInfos,
+} from "../types/auth"
 import AuthService from "../services/AuthService"
 import { queryClient } from "../main"
 import { useAuthStore } from "../stores/authStore"
@@ -31,6 +36,16 @@ export const useAuth = () => {
     mutationFn: (userId: number) => AuthService.softDeleteUser(userId),
   })
 
+  const forgotPasswordMutation = useMutation({
+    mutationFn: (userEmail: ForgotPasswordInfos) =>
+      AuthService.forgotPassword(userEmail),
+  })
+
+  const resetPasswordMutation = useMutation({
+    mutationFn: ({ password, confirm, token }: ResetPasswordInfos) =>
+      AuthService.resetPassword({ password, confirm, token }),
+  })
+
   const loginAccount = async (credentials: LoginInfos) => {
     const logIn = loginAccountMutation.mutateAsync(credentials)
     queryClient.invalidateQueries() // Clear all cached queries
@@ -53,14 +68,30 @@ export const useAuth = () => {
     return deleteAccountMutation.mutateAsync(userId)
   }
 
+  const forgotPassword = async (userEmail: ForgotPasswordInfos) => {
+    return forgotPasswordMutation.mutateAsync(userEmail)
+  }
+
+  const resetPassword = async ({
+    password,
+    confirm,
+    token,
+  }: ResetPasswordInfos) => {
+    return resetPasswordMutation.mutateAsync({ password, confirm, token })
+  }
+
   return {
     loginAccount,
     registerAccount,
     logoutAccount,
     deleteAccount,
+    forgotPassword,
+    resetPassword,
     loginAccountMutation,
     registerAccountMutation,
     logoutAccountMutation,
     deleteAccountMutation,
+    forgotPasswordMutation,
+    resetPasswordMutation,
   }
 }

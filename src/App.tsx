@@ -6,6 +6,7 @@ import { LandingPage } from "./pages/landingPage"
 import { ChallengesPage } from "./pages/challengesPage"
 import { useFetchCurrentUser } from "./hooks/useFetchCurrentUser"
 import { ChallengeDetailsPage } from "./pages/challengeDetailsPage"
+import { ReinitPasswordPage } from "./pages/reinitPasswordPage"
 
 function App() {
   useFetchCurrentUser()
@@ -20,6 +21,7 @@ function App() {
             path="/challenges/:challengeId"
             element={<ChallengeDetailsPage />}
           />
+          <Route path="/reset-password" element={<ReinitPasswordPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
