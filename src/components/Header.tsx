@@ -1,43 +1,70 @@
-import { AppBar, Toolbar, useMediaQuery, Chip, Avatar } from "@mui/material"
+import {
+  AppBar,
+  Toolbar,
+  useMediaQuery,
+  Chip,
+  Avatar,
+  IconButton,
+} from "@mui/material"
+import { useState } from "react"
+import { AuthModal } from "./AuthModal"
+import { useAuthStore } from "../stores/authStore"
 import avatar from "../assets/avatar.svg"
 import logo from "../assets/logo/logo_GamerChallenges.svg"
 import logoSmall from "../assets/logo/logogram.svg"
+import { Link } from "react-router"
+import AccountMenu from "./AccountMenu"
 
 export default function Header() {
   const isSmallScreen = useMediaQuery("(max-width:600px)")
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn)
+  const isFetchUserLoading = useAuthStore((state) => state.isLoading)
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
 
   return (
     <AppBar position="static" sx={{ backgroundColor: "var(--jet)" }}>
-      <Toolbar className="w-full max-w-7xl mx-auto flex justify-between items-center">
-        <img
-          src={isSmallScreen ? logoSmall : logo}
-          alt="Logo Gamer Challenges"
-          className="h-10"
-        />
-
-        {isSmallScreen ? (
-          <Chip
-            size="small"
-            color="primary"
-            avatar={<Avatar src={avatar} alt="Avatar" />}
-            sx={{
-              paddingRight: 0,
-              paddingLeft: 1,
-              height: 32,
-              ".MuiChip-avatar": {
-                width: 30,
-                height: 30,
-                marginLeft: 2,
-                marginRight: 1,
-              },
-              "&:hover": {
-                backgroundColor: "#6B6BFF",
-              },
-            }}
+      <Toolbar
+        sx={{
+          width: "100%",
+          maxWidth: "1440px",
+          margin: "0 auto",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Link to={"/"}>
+          <img
+            src={isSmallScreen ? logoSmall : logo}
+            alt="Logo Gamer Challenges"
+            className="h-10"
           />
-        ) : (
-          <Chip label="CONNEXION" color="primary" size="small"></Chip>
-        )}
+        </Link>
+        {!isFetchUserLoading &&
+          (isLoggedIn ? (
+            <AccountMenu />
+          ) : isSmallScreen ? (
+            <IconButton
+              onClick={() => setIsAuthModalOpen(true)}
+              size="small"
+              sx={{ ml: 2 }}
+            >
+              <Avatar
+                sx={{
+                  ".MuiAvatar-img": { width: "75%", height: "75%", p: "1px" },
+                }}
+                src={avatar}
+              />
+            </IconButton>
+          ) : (
+            <Chip
+              label="CONNEXION"
+              color="primary"
+              size="medium"
+              onClick={() => setIsAuthModalOpen(true)}
+            ></Chip>
+          ))}
+        <AuthModal open={isAuthModalOpen} setOpen={setIsAuthModalOpen} />
       </Toolbar>
     </AppBar>
   )

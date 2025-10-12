@@ -2,8 +2,10 @@ import { Box, Button, Modal, Typography } from "@mui/material"
 interface CustomModalProps {
   open: boolean
   onClose: (value: boolean) => void
+  onDelete?: () => void | Promise<void>
   title?: string
   children: React.ReactNode
+  validationButtonText?: string
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void
 }
 export const CustomModal = ({
@@ -11,6 +13,7 @@ export const CustomModal = ({
   onClose,
   title,
   children,
+  validationButtonText,
   onSubmit,
 }: CustomModalProps) => {
   const style = {
@@ -18,7 +21,8 @@ export const CustomModal = ({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
+    width: "85%",
+    maxWidth: 400,
     bgcolor: "var(--jet)",
     border: "2px solid #000",
     boxShadow: 24,
@@ -61,7 +65,7 @@ export const CustomModal = ({
               variant="contained"
               type="submit"
             >
-              Envoyer
+              {validationButtonText || "Valider"}
             </Button>
           </Box>
         </form>

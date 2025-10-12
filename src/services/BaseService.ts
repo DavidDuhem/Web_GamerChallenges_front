@@ -1,5 +1,6 @@
 import axiosClient from "./axiosClient"
 import { handleAxiosError } from "../utils/handleAxiosError"
+import { refreshTokenIfInvalid } from "../utils/token"
 
 export default class BaseService<T> {
   protected endpoint: string
@@ -23,6 +24,7 @@ export default class BaseService<T> {
   }
 
   async create(payload: Partial<T>): Promise<T> {
+    await refreshTokenIfInvalid()
     const res = await handleAxiosError(() =>
       axiosClient.post<T>(this.endpoint, payload)
     )
@@ -30,6 +32,7 @@ export default class BaseService<T> {
   }
 
   async update(id: number, payload: Partial<T>): Promise<T> {
+    await refreshTokenIfInvalid()
     const res = await handleAxiosError(() =>
       axiosClient.patch<T>(`${this.endpoint}/${id}`, payload)
     )
@@ -37,6 +40,7 @@ export default class BaseService<T> {
   }
 
   async delete(id: number): Promise<void> {
+    await refreshTokenIfInvalid()
     await handleAxiosError(() => axiosClient.delete(`${this.endpoint}/${id}`))
   }
 }

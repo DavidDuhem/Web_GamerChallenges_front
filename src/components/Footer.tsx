@@ -8,8 +8,9 @@ export default function Footer() {
       <Box
         component="footer"
         sx={{
-          color: "#ebebff",
-          mt: "auto",
+          color: "var(--lavender)",
+          borderTop: "1px solid var(--jet)",
+          mt: { xs: "var(--margin-mobile)", md: "var(--margin-desktop)" },
           px: 2,
           py: 1,
         }}

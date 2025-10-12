@@ -8,22 +8,19 @@ import EntryService from "../services/EntryService"
 import { formatted } from "../utils/formatedDate"
 
 export const LandingPage = () => {
-  const challengeService = new ChallengeService()
-  const entryService = new EntryService()
-
   const results = useQueries({
     queries: [
       {
         queryKey: ["newestChallenges"],
-        queryFn: () => challengeService.getNewest(),
+        queryFn: () => ChallengeService.getNewest(),
       },
       {
         queryKey: ["popularChallenges"],
-        queryFn: () => challengeService.getMostLikedChallenges(),
+        queryFn: () => ChallengeService.getMostLikedChallenges(),
       },
       {
         queryKey: ["popularEntries"],
-        queryFn: () => entryService.getEntryMostLikedEntry(),
+        queryFn: () => EntryService.getEntryMostLikedEntry(),
       },
     ],
   })
@@ -48,9 +45,9 @@ export const LandingPage = () => {
           },
         }}
       >
-        <div className="flex flex-col text-center justify-evenly items-center bg-amber- max-w-[1056px] h-[355px] sm:h-[413px]">
+        <div className="flex flex-col text-center justify-evenly items-center bg-amber- max-w-[1056px] h-[250px] sm:h-[400px]">
           <div className="sm:h-[201px]">
-            <p className="text-[36px] sm:text-[48px]">GamerChallenges</p>
+            <h1 className="text-[36px] sm:text-[48px]">GamerChallenges</h1>
             <p className="max-w-[486px] ">
               Une plateforme dédiée aux challenges de jeux vidéo, permettant aux
               utilisateurs de proposer et relever des challenges sur différents
@@ -59,19 +56,10 @@ export const LandingPage = () => {
           </div>
           <Chip
             component={Link}
-            to={"/"}
+            to={"/challenges"}
             clickable
-            sx={{
-              width: {
-                xs: "50%",
-                md: "50%",
-              },
-              fontSize: {
-                xs: "1rem",
-                md: "1.25rem",
-              },
-            }}
-            label="Challenges"
+            sx={{ fontSize: "1rem" }}
+            label="CHALLENGES"
             color="primary"
           />
         </div>
@@ -82,14 +70,16 @@ export const LandingPage = () => {
             Leaderboard des challenges
           </p>
           <div className="flex flex-col gap-[var(--margin-cards)]">
-            {popularChallenges.data?.map((item) => (
-              <BoardCard
-                key={item.challenge_id}
-                img={item.game.image_url}
-                description={item.title}
-                likes_number={item._count.challengeVoters}
-              />
-            ))}
+            {popularChallenges.data?.map(
+              ({ challenge_id, game, title, _count }) => (
+                <BoardCard
+                  key={challenge_id}
+                  img={game.image_url}
+                  description={title}
+                  likes_number={_count.challengeVoters}
+                />
+              )
+            )}
           </div>
         </div>
 
@@ -98,12 +88,12 @@ export const LandingPage = () => {
             Leaderboard des participants
           </p>
           <div className="flex flex-col gap-[var(--margin-cards)]">
-            {popularEntries.data?.map((entry) => (
+            {popularEntries.data?.map(({ entry_id, user, title, _count }) => (
               <BoardCard
-                key={entry.entry_id}
-                img={entry.user.avatar}
-                description={entry.title}
-                likes_number={entry._count.entryVoters}
+                key={entry_id}
+                img={user.avatar}
+                description={title}
+                likes_number={_count.entryVoters}
               />
             ))}
           </div>
@@ -113,27 +103,56 @@ export const LandingPage = () => {
         <p className="text-[1.25rem] " style={{ marginBottom: "1rem" }}>
           Nouveaux challenges
         </p>
-        <div className=" flex flex-col items-center  gap-[var(--margin-desktop-elements)]   sm:flex-row ">
-          {newestChallenges.data?.map((item) => (
-            <VerticalCard
-              key={item.challenge_id}
-              image={item.game.image_url}
-              link_path={"/challenge?id=" + item.challenge_id}
-              text_chip="Détails"
-            >
-              <Box sx={{}}>
-                <Typography variant="h6" sx={{ color: "var(--lavander)" }}>
-                  {item.game.title}
+        <div className=" flex flex-col items-center justify-between gap-[var(--margin-mobile-elements)] sm:flex-row ">
+          {newestChallenges.data?.map(
+            ({ challenge_id, game, created_at, user, title }) => (
+              <VerticalCard
+                key={challenge_id}
+                image={game.image_url}
+                link_path={`${challenge_id}`}
+                text_chip="Détails"
+              >
+                <Box
+                  sx={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2, // Limite de lignes
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2, // Limite de lignes
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    {game.title}
+                  </Typography>
+                  <Typography variant="body1">
+                    Le {formatted(created_at)}
+                  </Typography>
+                </Box>
+                <Typography variant="body2">Par {user.pseudo}</Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2, // Limite de lignes
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {title}
                 </Typography>
-                <Typography>-</Typography>
-                <Typography sx={{ fontSize: 12 }}>
-                  {formatted(item.created_at)}
-                </Typography>
-              </Box>
-              <Typography>{item.user.pseudo}</Typography>
-              <Typography>{item.title}</Typography>
-            </VerticalCard>
-          ))}
+              </VerticalCard>
+            )
+          )}
         </div>
       </Box>
     </div>

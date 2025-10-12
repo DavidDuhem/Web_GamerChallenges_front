@@ -5,12 +5,13 @@
   --lavander: #ebebff;
   --eerie-black: #1f1f1f;
   --jet: #333333;
+  --danger-red: #d32f2f;
+  --custom-slate-blue: #6b6bff;
   --margin-desktop: 80px;
   --margin-desktop-elements: 50px;
   --margin-cards: 5px;
   --margin-mobile: 75px;
-
-  color: var(--lavander);
+  --margin-mobile-elements: 25px;
   font-family: "Nunito Sans", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
@@ -22,7 +23,6 @@
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
-  background-color: var(--eerie-black);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
