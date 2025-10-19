@@ -1,0 +1,15 @@
+services:
+  gamerchallenges-client:
+    build:
+      context: ./
+      args:
+        VITE_API_BASE_URL: http://api:5000
+    container_name: client
+    networks:
+      - app-network
+    ports:
+      - "3000:80"
+
+networks:
+  app-network:
+    driver: bridge
