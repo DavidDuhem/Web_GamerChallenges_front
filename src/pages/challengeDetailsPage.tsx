@@ -297,18 +297,17 @@ export const ChallengeDetailsPage = ({
               {!entriesAreLoading && memberEntries.length > 0 && (
                 <Box
                   sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: {
-                      xs: "column",
-                      sm: "row",
+                    display: "grid",
+                    gridTemplateColumns: {
+                      xs: "1fr",
+                      sm: "repeat(2, 1fr)",
+                      md: "repeat(3, 1fr)",
                     },
-                    flexWrap: "wrap",
                     gap: {
                       xs: "var(--margin-mobile-elements)",
                       sm: "var(--margin-desktop-elements)",
                     },
+                    justifyContent: "center",
                   }}
                 >
                   {memberEntries.map(
@@ -316,8 +315,8 @@ export const ChallengeDetailsPage = ({
                       <EntryCard
                         key={entry_id}
                         entryData={{
-                          title: title,
-                          video_url: video_url,
+                          title,
+                          video_url,
                           user_id: currentUser?.id,
                           challenge_id: Number(challengeId),
                         }}
@@ -362,18 +361,17 @@ export const ChallengeDetailsPage = ({
           )}
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: {
-                xs: "column",
-                sm: "row",
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "1fr",
+                sm: "repeat(2, 1fr)",
+                md: "repeat(3, 1fr)",
               },
-              flexWrap: "wrap",
               gap: {
                 xs: "var(--margin-mobile-elements)",
                 sm: "var(--margin-desktop-elements)",
               },
+              justifyContent: "center",
             }}
           >
             {entries.map(
