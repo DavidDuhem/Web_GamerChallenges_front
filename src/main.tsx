@@ -10,7 +10,7 @@ import { theme } from "./styles/theme.ts"
 export const queryClient = new QueryClient()
 
 createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
+  <BrowserRouter basename="/gamer-challenges">
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <App />
